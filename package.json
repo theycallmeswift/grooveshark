@@ -1,10 +1,10 @@
 {
   "name": "grooveshark",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A package for interacting with the Grooveshark API.",
   "main": "./lib/grooveshark",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/jasmine-node --coffee spec"
   },
   "repository": {
     "type": "git",
@@ -13,12 +13,15 @@
   "keywords": [
     "Grooveshark",
     "API",
-    "Music",
-    "Node.js"
+    "Music"
   ],
   "author": "Swift <theycallmeswift@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "request": "~2.10.0"
+  },
+  "devDependencies": {
+    "nock": "~0.13.3",
+    "jasmine-node": "~1.0.26"
   }
 }

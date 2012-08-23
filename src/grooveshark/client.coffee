@@ -57,7 +57,10 @@ class Client
         return cb(err) if err
 
         if /^2..$/.test(res.statusCode)
-          cb(null, res.statusCode, body.result)
+          if body.errors && body.errors.length
+            cb(body.errors, res.statusCode, body.result)
+          else
+            cb(null, res.statusCode, body.result)
         else
           cb(null, res.statusCode, body)
       )

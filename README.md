@@ -1,3 +1,5 @@
+[![build status](https://secure.travis-ci.org/theycallmeswift/grooveshark.png)](http://travis-ci.org/theycallmeswift/grooveshark)
+
 # Grooveshark
 
 This is a package for interacting with the [Grooveshark V3 API](http://developers.grooveshark.com/docs/public_api/v3/) using node.js.

@@ -53,6 +53,7 @@ class Client
         uri: @urlWithSig(body),
         method: 'POST',
         json: body,
+        jar: false # Need this if we want to have multiple unique sessions per instance of app
       }, (err, res, body) =>
         return cb(err) if err
 
@@ -70,9 +71,17 @@ class Client
     token = crypto.createHash('md5').update(password).digest("hex")
     @request('authenticate', {login: username, password: token}, (err, status, body) =>
       return cb(err) if err
-
-      @authenticated = true
-      cb(null)
+      if body.success and body.UserID
+        @authenticated = true
+      cb(null, status, body)
     )
+
+  logout: (cb) ->
+    @authenticated = false
+    @request('logout', {}, (err, status, body) =>
+      return cb(err) if err
+      cb(null, status, body)
+    )
+
 
 module.exports = Client

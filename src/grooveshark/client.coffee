@@ -70,9 +70,17 @@ class Client
     token = crypto.createHash('md5').update(password).digest("hex")
     @request('authenticate', {login: username, password: token}, (err, status, body) =>
       return cb(err) if err
-
-      @authenticated = true
-      cb(null)
+      if body.success
+        @authenticated = true
+      cb(null, status, body)
     )
+
+  logout: (cb) ->
+    @authenticated = false
+    @request('logout', {}, (err, status, body) =>
+      return cb(err) if err
+      cb(null, status, body)
+    )
+
 
 module.exports = Client

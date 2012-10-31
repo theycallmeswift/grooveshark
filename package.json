@@ -2,10 +2,9 @@
   "name": "grooveshark",
   "version": "0.0.1",
   "description": "A package for interacting with the Grooveshark API.",
-  "main": "./src/grooveshark",
+  "main": "./lib/grooveshark",
   "scripts": {
     "test": "./node_modules/.bin/jasmine-node --coffee spec",
-    "buildme": "coffee -o lib -c src"
   },
   "repository": {
     "type": "git",

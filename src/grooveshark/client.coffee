@@ -70,7 +70,7 @@ class Client
     token = crypto.createHash('md5').update(password).digest("hex")
     @request('authenticate', {login: username, password: token}, (err, status, body) =>
       return cb(err) if err
-      if body.success
+      if body.success and body.UserID
         @authenticated = true
       cb(null, status, body)
     )

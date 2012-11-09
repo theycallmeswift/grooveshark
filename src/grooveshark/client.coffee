@@ -53,6 +53,7 @@ class Client
         uri: @urlWithSig(body),
         method: 'POST',
         json: body,
+        jar: false # Need this if we want to have multiple unique sessions per instance of app
       }, (err, res, body) =>
         return cb(err) if err
 

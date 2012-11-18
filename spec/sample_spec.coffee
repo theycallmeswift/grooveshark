@@ -87,29 +87,74 @@ describe "Grooveshark", ->
 
   describe "#authenticate", ->
     mock = undefined
+    request = undefined
 
     beforeEach ->
       gs.sessionID = "foobar1"
-
       spyOn(gs, 'urlWithSig').andReturn("http://example.com/api.php?sig=foo")
-      mock = nock("http://example.com").post('/api.php?sig=foo', {
+
+      request = nock("http://example.com").post('/api.php?sig=foo', {
         method: 'authenticate',
         parameters: { login: "username", password: "bed128365216c019988915ed3add75fb" },
         header: { wsKey: 'key', sessionID: 'foobar1' }
-      }).reply(200, () ->
-        return { result: { authenticated: true }}
-      )
+      })
 
-    it "makes a request to the authenticate method with the proper params", (done) ->
-      gs.authenticate('username', 'passw0rd', (err) ->
-        expect(err).toBe(null)
-        expect(mock.isDone()).toBe(true)
-        done()
-      )
+    describe "failure", ->
+      beforeEach ->
+        mock = request.reply(200, () ->
+          return JSON.stringify({ result: { }})
+        )
 
-    it "sets the current session as authenticated", (done) ->
-      gs.authenticate('username', 'passw0rd', (err) ->
-        expect(gs.authenticated).toBe(true)
-        expect(mock.isDone()).toBe(true)
+      it "makes a request to the authenticate method with the proper params", (done) ->
+        gs.authenticate('username', 'passw0rd', (err) ->
+          expect(err).not.toBe(null)
+          expect(err.message).toBe("Invalid username or password")
+          expect(mock.isDone()).toBe(true)
+          done()
+        )
+
+      it "sets the current session as authenticated", (done) ->
+        gs.authenticate('username', 'passw0rd', (err) ->
+          expect(gs.authenticated).toBe(false)
+          expect(mock.isDone()).toBe(true)
+          done()
+        )
+
+    describe "success", ->
+      beforeEach ->
+        mock = request.reply(200, () ->
+          return JSON.stringify({ result: { success: true, UserID: 1234 }})
+        )
+
+      it "makes a request to the authenticate method with the proper params", (done) ->
+        gs.authenticate('username', 'passw0rd', (err) ->
+          expect(err).toBe(null)
+          expect(mock.isDone()).toBe(true)
+          done()
+        )
+
+      it "sets the current session as authenticated", (done) ->
+        gs.authenticate('username', 'passw0rd', (err) ->
+          expect(gs.authenticated).toBe(true)
+          expect(mock.isDone()).toBe(true)
+          done()
+        )
+
+  describe "#logout", ->
+    mock = undefined
+
+    beforeEach ->
+      gs.sessionID = "foobar1"
+      spyOn(gs, 'urlWithSig').andReturn("http://example.com/api.php?sig=foo")
+
+      request = nock("http://example.com").post('/api.php?sig=foo', {
+        method: 'logout',
+        parameters: { },
+        header: { wsKey: 'key', sessionID: 'foobar1' }
+      }).reply(200, { result: { success: true } })
+
+    it "unauthenticates the user and wipes the session", (done) ->
+      gs.logout (err) ->
+        expect(gs.authenticated).toBe(false)
+        expect(gs.sessionID).toBe(null)
         done()
-      )

@@ -42,7 +42,7 @@ class Client
       })
 
   urlWithSig: (body) ->
-    sig = crypto.createHmac('md5', @secret).update(JSON.stringify(body)).digest('hex')
+    sig = crypto.createHmac('md5', @secret).update(JSON.stringify(body), 'utf-8').digest('hex')
     "#{BASE_URL}?sig=#{sig}"
 
   request: (method, parameters = {}, cb) ->

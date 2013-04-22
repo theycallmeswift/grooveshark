@@ -1,6 +1,6 @@
 {
   "name": "grooveshark",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A package for interacting with the Grooveshark API.",
   "main": "./lib/grooveshark",
   "scripts": {

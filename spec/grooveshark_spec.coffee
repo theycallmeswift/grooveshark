@@ -1,4 +1,5 @@
 describe "Grooveshark", ->
+
   gs = undefined
 
   beforeEach ->

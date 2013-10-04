@@ -1,12 +1,13 @@
 # Dependencies
 request = require('request')
 crypto = require('crypto')
+GSAPI = require('./api')
 
 # Constants
 BASE_URL = "https://api.grooveshark.com/ws3.php"
 
 # Client class
-class Client
+class Client extends GSAPI
 
   constructor: (@key, @secret) ->
     @sessionID = null

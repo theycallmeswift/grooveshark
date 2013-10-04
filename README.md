@@ -31,22 +31,22 @@ Then run:
 
     coffee --compile --output lib/ src/
 
-## API Methods
+## Additional Methods
 
-While all API methods mentioned in the [Grooveshark V3 API](http://developers.grooveshark.com/docs/public_api/v3/) can be called via the `client.request` method, a layer of abstraction has been added to make querying the API and parsing results a little easier. The functions added and the results they return include the following:
+While all API methods mentioned in the [Grooveshark V3 API](http://developers.grooveshark.com/docs/public_api/v3/) can be called via the `client.request` method, a few helper methods are also available to make querying the API and parsing results a little easier.
 
 Methods include:
 
-- `getPlaylist`
-- `getUserInfo`
-- `getUserLibrary`
-- `getUserCollection` (alias for `getUserLibrary`)
-- `getUserFavorites`
-- `getUserPlaylists`
-- `searchSongs`
-- `searchPlaylists`
-- `searchArtists`
-- `searchAlbums`
+- [`getPlaylist`](#getplaylist)
+- [`getUserInfo`](#getuserinfo)
+- [`getUserLibrary`](#getuserlibrary)
+- [`getUserCollection`](#getusercollection) (alias for [`getUserLibrary`](#getuserlibrary))
+- [`getUserFavorites`](#getuserfavorites)
+- [`getUserPlaylists`](#getuserplaylists)
+- [`searchSongs`](#searchsongs)
+- [`searchPlaylists`](#searchplaylists)
+- [`searchArtists`](#searchartists)
+- [`searchAlbums`](#searchalbums)
 
 #### getPlaylist
 
@@ -84,6 +84,7 @@ client.getPlaylist(88862109, function(info, songs) {
   //=>    },
   //=>    sort: 27
   //=>   }, ... many more songs ... ] 
+});
 ```
 
 #### getUserInfo
@@ -308,7 +309,7 @@ Search artists based on name.
 Example requests:
 
 ```js
-client.searchPlaylists("Bonobo", function(artists) {
+client.searchArtists("Bonobo", function(artists) {
   console.log(artists);
   //=>  [{ 
   //=>    id: 20982, 
@@ -328,7 +329,7 @@ Search albums based on name.
 Example requests:
 
 ```js
-client.searchPlaylists("2112", function(albums) {
+client.searchAlbums("2112", function(albums) {
   console.log(albums);
   //=>  [{ 
   //=>    id: 1103744,
